@@ -1,0 +1,52 @@
+﻿@model IEnumerable<ShoesShopOnline.Models.TinTuc>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TaiKhoanQuanTri.TenDangNhap)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TenTin)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NgayDang)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NoiDung)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TaiKhoanQuanTri.TenDangNhap)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TenTin)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NgayDang)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NoiDung)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.MaTin }) |
+            @Html.ActionLink("Details", "Details", new { id=item.MaTin }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.MaTin })
+        </td>
+    </tr>
+}
+
+</table>

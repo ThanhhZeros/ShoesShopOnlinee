@@ -1,0 +1,79 @@
+﻿@model ShoesShopOnline.Models.SanPham
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    string[] images = ViewBag.filePath.Split(';');
+    string image = "";
+    for (int i = 0; i < images.Length; i++)
+    {
+        image += "<img class=\"rounded\" alt=\"Ảnh\" width=\"150\" height=\"150\" src=\"/wwwroot/Images/" + images[i] + "\">";
+    }
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>SanPham</h4>
+        <hr />
+        <dl class="dl-horizontal">
+
+            <dt>
+                Tên sản phẩm
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TenSP)
+            </dd>
+
+            <dt>
+                Tên danh mục
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DanhMucSP.TenDanhMuc)
+            </dd>
+            <dt>
+                Hình ảnh
+            </dt>
+            <dd>
+                @Html.Raw(System.Web.HttpUtility.HtmlDecode(image))
+            </dd>
+
+            <dt>
+                Mô tả
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MoTa)
+            </dd>
+
+            <dt>
+                Giá bán
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.GiaBan)
+            </dd>
+
+            <dt>
+                Sản phẩm mới
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.New)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Sửa sản phẩm", "Edit", new { id = Model.MaSP }) |
+        @Html.ActionLink("Trở về", "Index")
+    </p>
+</body>
+</html>

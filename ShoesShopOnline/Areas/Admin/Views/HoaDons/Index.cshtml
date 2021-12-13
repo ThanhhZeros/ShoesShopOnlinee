@@ -1,0 +1,86 @@
+﻿@model PagedList.IPagedList<ShoesShopOnline.Models.HoaDon>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Hóa đơn";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div style="margin-left: 10px">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+        <div class="d-block mb-4 mb-md-0">
+
+            <h2 class="h4">Danh sách hóa đơn</h2>
+        </div>
+        <div class="btn-toolbar mb-2 mb-md-0">
+        </div>
+    </div>
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+
+    <div class="card card-body border-light shadow-sm table-wrapper table-responsive pt-0">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Tên khách hàng</th>
+                    <th>Tên người nhận</th>
+                    <th>Ngày đặt</th>
+                    <th>Địa chỉ nhận</th>
+                    <th>Trạng thái</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Item -->
+                @foreach (var item in Model)
+                {
+                    <tr class="group-info">
+                        <td>
+                            @item.TaiKhoanNguoiDung.HoTen
+                        </td>
+                        <td>
+                            <span class="font-weight-normal">@item.HoTenNguoiNhan</span>
+                        </td>
+                        <td><span class="font-weight-normal">@item.NgayLap</span></td>
+                        <td><span class="font-weight-normal">@item.DiaChiNhan</span></td>
+                        <td>
+                            <span class="font-weight-normal text-danger">
+                                <select id="hd-trangthai-update-@item.MaHD" onchange="doiTrangThai(@item.MaHD)">
+                                    @if (item.TrangThai.Equals("Đã hủy"))
+                                    {
+                                        <option value="1" @(item.TrangThai.Equals("Đã hủy") ? "selected" : "")>Đã bị hủy</option>
+                                    }
+                                    @if (!item.TrangThai.Equals("Đã hủy"))
+                                    {
+                                        <option value="1" @(item.TrangThai.Equals("Đang chuẩn bị") ? "selected" : "")>Đang chuẩn bị</option>
+                                        <option value="2" @(item.TrangThai.Equals("Đang giao hàng") ? "selected" : "")>Đang giao hàng</option>
+                                        <option value="3" @(item.TrangThai.Equals("Đã thanh toán") ? "selected" : "")>Đã thanh toán</option>
+                                    }
+                                </select>
+                            </span>
+                        </td>
+                        <td>
+                            <button style="background-color: white; border-radius: 8px">@Html.ActionLink("Xem chi tiết", "Details", new { id = item.MaHD })</button>
+                            @if (!item.TrangThai.Equals("Đã hủy"))
+                            {
+                                <button type="button" style="background-color: crimson; border-radius: 8px; color: white" onclick="huyDonHang(@item.MaHD)">Hủy đơn hàng</button>
+                            }
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("Index",
+            new { page, pageSize = Model.PageSize, searchString = ViewBag.searchString }))
+    </div>
+
+
+</div>
+
+
+
+
